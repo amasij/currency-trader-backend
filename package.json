@@ -1,0 +1,25 @@
+{
+  "name": "currency-trader-backend",
+  "version": "1.0.0",
+  "description": "Backend APIs for currency trader platform",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amasij/currency-trader-backend.git"
+  },
+  "author": "Simon Joseph",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amasij/currency-trader-backend/issues"
+  },
+  "homepage": "https://github.com/amasij/currency-trader-backend#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
