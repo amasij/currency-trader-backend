@@ -2,11 +2,24 @@
   "name": "currency-trader-backend",
   "version": "1.0.0",
   "description": "Backend APIs for currency trader platform",
-  "main": "index.js",
   "directories": {
     "test": "test"
   },
+  "nodemonConfig": {
+    "watch": [
+      "./"
+    ],
+    "ext": "ts",
+    "ignore": [
+      "*.test.ts"
+    ],
+    "execMap": {
+      "ts": "ts-node"
+    }
+  },
   "scripts": {
+    "dev": "nodemon index.ts",
+    "install": "npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
