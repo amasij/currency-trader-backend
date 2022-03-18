@@ -18,7 +18,7 @@
     }
   },
   "scripts": {
-    "dev": "nodemon index.ts",
+    "dev": "nodemon src/index.ts",
     "install": "npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -36,12 +36,18 @@
     "axios": "^0.26.1",
     "axios-observable": "^1.4.0",
     "body-parser": "^1.19.2",
+    "class-validator": "^0.13.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "nodemon": "^2.0.15",
+    "pg": "^8.7.3",
+    "postgres": "^1.0.2",
+    "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
-    "stripe": "^8.209.0"
+    "stripe": "^8.209.0",
+    "typedi": "^0.10.0",
+    "typeorm": "^0.2.45"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

@@ -1,0 +1,522 @@
+[
+  {
+    "name": "Newfoundland and Labrador",
+    "code": "CA-NL",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Prince Edward Island",
+    "code": "CA-PE",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Nova Scotia",
+    "code": "CA-NS",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "New Brunswick",
+    "code": "CA-NB",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Quebec",
+    "code": "CA-QC",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Ontario",
+    "code": "CA-ON",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Manitoba",
+    "code": "CA-MB",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Saskatchewan",
+    "code": "CA-SK",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Alberta",
+    "code": "CA-AB",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "British Columbia",
+    "code": "CA-BC",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Yukon",
+    "code": "CA-YT",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Northwest Territories",
+    "code": "CA-NT",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Nunavut",
+    "code": "CA-NU",
+    "countryAlpha2": "CA"
+  },
+  {
+    "name": "Abuja Federal Capital Territory",
+    "code": "NG-FC",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Abia",
+    "code": "NG-AB",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Adamawa",
+    "code": "NG-AD",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Akwa Ibom",
+    "code": "NG-AK",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Anambra",
+    "code": "NG-AN",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Bauchi",
+    "code": "NG-BA",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Bayelsa",
+    "code": "NG-BY",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Benue",
+    "code": "NG-BE",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Borno",
+    "code": "NG-BO",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Cross River",
+    "code": "NG-CR",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Delta",
+    "code": "NG-DE",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Ebonyi",
+    "code": "NG-EB",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Edo",
+    "code": "NG-ED",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Ekiti",
+    "code": "NG-EK",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Enugu",
+    "code": "NG-EN",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Gombe",
+    "code": "NG-GO",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Imo",
+    "code": "NG-IM",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Jigawa",
+    "code": "NG-JI",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Kaduna",
+    "code": "NG-KD",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Kano",
+    "code": "NG-KN",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Katsina",
+    "code": "NG-KT",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Kebbi",
+    "code": "NG-KE",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Kogi",
+    "code": "NG-KO",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Kwara",
+    "code": "NG-KW",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Lagos",
+    "code": "NG-LA",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Nasarawa",
+    "code": "NG-NA",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Niger",
+    "code": "NG-NI",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Ogun",
+    "code": "NG-OG",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Ondo",
+    "code": "NG-ON",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Osun",
+    "code": "NG-OS",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Oyo",
+    "code": "NG-OY",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Plateau",
+    "code": "NG-PL",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Rivers",
+    "code": "NG-RI",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Sokoto",
+    "code": "NG-SO",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Taraba",
+    "code": "NG-TA",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Yobe",
+    "code": "NG-YO",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Zamfara",
+    "code": "NG-ZA",
+    "countryAlpha2": "NG"
+  },
+  {
+    "name": "Wales",
+    "code": "GB-WLS",
+    "countryAlpha2": "GB"
+  },
+  {
+    "name": "Scotland",
+    "code": "GB-SCT",
+    "countryAlpha2": "GB"
+  },
+  {
+    "name": "Northern Ireland",
+    "code": "GB-NIR",
+    "countryAlpha2": "GB"
+  },
+  {
+    "name": "England",
+    "code": "GB-ENG",
+    "countryAlpha2": "GB"
+  },
+  {
+    "name": "Alabama",
+    "code": "US-AL",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Alaska",
+    "code": "US-AK",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Arizona",
+    "code": "US-AZ",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Arkansas",
+    "code": "US-AR",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "California",
+    "code": "US-CA",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Colorado",
+    "code": "US-CO",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Connecticut",
+    "code": "US-CT",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Delaware",
+    "code": "US-DE",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Florida",
+    "code": "US-FL",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Georgia",
+    "code": "US-GA",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Hawaii",
+    "code": "US-HI",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Idaho",
+    "code": "US-ID",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Illinois",
+    "code": "US-IL",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Indiana",
+    "code": "US-IN",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Iowa",
+    "code": "US-IA",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Kansas",
+    "code": "US-KS",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Kentucky",
+    "code": "US-KY",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Louisiana",
+    "code": "US-LA",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Maine",
+    "code": "US-ME",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Maryland",
+    "code": "US-MD",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Massachusetts",
+    "code": "US-MA",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Michigan",
+    "code": "US-MI",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Minnesota",
+    "code": "US-MN",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Mississippi",
+    "code": "US-MS",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Missouri",
+    "code": "US-MO",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Montana",
+    "code": "US-MT",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Nebraska",
+    "code": "US-NE",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Nevada",
+    "code": "US-NV",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "New Hampshire",
+    "code": "US-NH",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "New Jersey",
+    "code": "US-NJ",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "New Mexico",
+    "code": "US-NM",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "New York",
+    "code": "US-NY",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "North Carolina",
+    "code": "US-NC",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "North Dakota",
+    "code": "US-ND",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Ohio",
+    "code": "US-OH",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Oklahoma",
+    "code": "US-OK",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Oregon",
+    "code": "US-OR",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Pennsylvania",
+    "code": "US-PA",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Rhode Island",
+    "code": "US-RI",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "South Carolina",
+    "code": "US-SC",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "South Dakota",
+    "code": "US-SD",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Tennessee",
+    "code": "US-TN",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Texas",
+    "code": "US-TX",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Utah",
+    "code": "US-UT",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Vermont",
+    "code": "US-VT",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Virginia",
+    "code": "US-VA",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Washington",
+    "code": "US-WA",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "West Virginia",
+    "code": "US-WV",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Wisconsin",
+    "code": "US-WI",
+    "countryAlpha2": "US"
+  },
+  {
+    "name": "Wyoming",
+    "code": "US-WY",
+    "countryAlpha2": "US"
+  }
+]
