@@ -13,6 +13,12 @@ export class AppConfigurationProperties {
     stripeApiVersion!:Stripe.LatestApiVersion;
     stripeSuccessUrl!:string;
     stripeCancelUrl!:string;
+    mailHostName!:string;
+    mailUsername!:string;
+    mailPassword!:string;
+    mailPort!:number;
+    jwtSecret!:string;
+    jwtExpiry!:string;
 
     constructor() {
         this.payStackSecretKey = process.env["PAYSTACK_SECRET_KEY"]!;
@@ -27,5 +33,11 @@ export class AppConfigurationProperties {
         this.serverPort = parseInt(process.env["SERVER_PORT"]!);
         this.stripeCancelUrl = process.env["STRIPE_CANCEL_URL"]!;
         this.stripeSuccessUrl = process.env["STRIPE_SUCCESS_URL"]!;
+        this.mailHostName = process.env["MAIL_HOST_NAME"]!;
+        this.mailPassword = process.env["MAIN_PASSWORD"]!;
+        this.mailUsername = process.env["MAIL_USERNAME"]!;
+        this.mailPort = parseInt(process.env["MAIL_POST"]!);
+        this.jwtSecret = process.env["JWT_SECRET"]!;
+        this.jwtExpiry = process.env["JWT_EXPIRY"]!;
     }
 }

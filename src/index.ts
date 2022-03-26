@@ -17,8 +17,14 @@ import {StripeController} from "./controllers/payments/stripe.controller";
 import {MasterRecordLoader} from "./loaders/master-record.loader";
 import {UserController} from "./controllers/user.controller";
 import {Routes} from "./config/routes/routes";
+import {
+    initializeTransactionalContext,
+    patchTypeORMRepositoryWithBaseRepository
+} from "typeorm-transactional-cls-hooked";
 
 (async () => {
+    initializeTransactionalContext();
+    patchTypeORMRepositoryWithBaseRepository();
     dotenv.config();
     const appConfigurationProperties = new AppConfigurationProperties();
 
@@ -47,17 +53,11 @@ import {Routes} from "./config/routes/routes";
     Container.set(Constants.APP_CONFIGURATION_PROPERTIES, appConfigurationProperties);
 
     await new MasterRecordLoader().load();
-
     Routes.register(app);
 
-    // app.get('/test',(...args)=>{
-    //     const [_,res] = args;
-    //     console.log('hello wworld')
-    //     return res.status(200).json({})
-    // })
-
     app.use((e: any, req: any, res: any, next: any) => {
-        res.status(e.statusCode).json({message: (e instanceof ErrorResponse) ? e.message : 'An error occurred'});
+        console.log(e)
+        res.status((e && e.statusCode)??HttpStatusCode.INTERNAL_SERVER).json({message: (e instanceof ErrorResponse) ? e.message : 'An error occurred'});
     });
 
     app.listen(appConfigurationProperties.serverPort, () => {

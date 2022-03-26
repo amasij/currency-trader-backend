@@ -7,4 +7,5 @@ export const copyProperties = <T>(from:T,to:T):void =>{
     });
 };
 
+
 export const resolve = async (resolutions:Promise<any>[])=>await Promise.all(resolutions);
