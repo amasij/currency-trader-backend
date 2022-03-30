@@ -6,11 +6,15 @@ import {Trade} from "./trade.model";
 
 @Entity()
 export class Currency extends BaseModel {
-    @Column()
-    amount!: number;
 
-    @Column({})
-    nairaValue!: string;
+    @Column()
+    name!: string;
+
+    @Column()
+    symbol!: string;
+
+    @Column({type: 'bigint'})
+    nairaValue!: number;
 
     @OneToMany(type => WalletCurrencyBalance, walletCurrencyBalance => walletCurrencyBalance.currency)
     walletCurrencyBalance!: WalletCurrencyBalance[];

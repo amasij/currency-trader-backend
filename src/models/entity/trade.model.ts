@@ -3,16 +3,17 @@ import {BaseModel} from "./base.model";
 import {Currency} from "./currency.model";
 import {OrderTypeConstant} from "../enums/order-type-constant";
 import {Wallet} from "./wallet.model";
+import {WalletCurrencyBalance} from "./wallet-currency-balance.model";
 
 @Entity()
 export class Trade extends BaseModel {
-    @Column()
-    currentWalletBalance!: number;
+    @Column({type: 'bigint'})
+    currentWalletCurrencyBalanceAmount!: number;
 
-    @Column()
+    @Column({type: 'bigint'})
     currentFromCurrencyNairaValue!: number;
 
-    @Column()
+    @Column({type: 'bigint'})
     currentToCurrencyNairaValue!: number;
 
     @Column({
@@ -21,7 +22,7 @@ export class Trade extends BaseModel {
     })
     orderType!: OrderTypeConstant;
 
-    @Column()
+    @Column({type: 'bigint'})
     amount!: number;
 
     @ManyToOne(type => Currency, currency => currency.fromTrade)
@@ -30,7 +31,7 @@ export class Trade extends BaseModel {
     @ManyToOne(type => Currency, currency => currency.toTrade)
     toCurrency!: Currency
 
-    @ManyToOne(type => Wallet, wallet => wallet.trade)
-    wallet!: Wallet
+    @ManyToOne(type => WalletCurrencyBalance, walletCurrencyBalance => walletCurrencyBalance.trade)
+    walletCurrencyBalance!: WalletCurrencyBalance
 
 }

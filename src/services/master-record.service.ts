@@ -9,37 +9,66 @@ import {StatusConstant} from "../models/enums/status-constant";
 import {State} from "../models/entity/state.model";
 import {StateJSON} from "../domain/interface/state-json.interface";
 import {SequenceGeneratorService} from "./sequence-generator.service";
+import {Transactional} from "typeorm-transactional-cls-hooked";
+import {Currency} from "../models/entity/currency.model";
+import {CurrencyJSON} from "../domain/interface/currencyJSON";
+import {AppRepository} from "../repositories/app.repository";
 
 
 const countryList = require('../resources/country.json');
 const stateList = require('../resources/state.json');
+const currencyList = require('../resources/currency.json');
 
 @Service()
 export class MasterRecordService {
     constructor(private masterRecordRepository: MasterRecordRepository,
                 private countryRepository: CountryRepository,
-                private sequenceGenerator:SequenceGeneratorService,
+                private appRepository:AppRepository,
+                private sequenceGenerator: SequenceGeneratorService,
                 private stateRepository: StateRepository) {
     }
 
-    countAllStates() {
+    countAllCurrencies(): Promise<number> {
+        return this.masterRecordRepository.countAllCurrencies();
+    }
+    countAllStates(): Promise<number> {
         return this.masterRecordRepository.countAllStates();
     }
 
-    countAllCountries() {
+    countAllCountries(): Promise<number> {
         return this.masterRecordRepository.countAllCountries();
     }
 
-    @Transaction()
+
+
+    @Transactional()
+    async loadCurrencies(){
+        const currencies:Currency[] = [];
+        let resolutions = (currencyList as CurrencyJSON[]).map(async item => {
+            let currency: Currency = new Currency();
+            currency.status = StatusConstant.ACTIVE;
+            currency.dateCreated = new Date();
+            currency.code = item.cc;
+            currency.symbol = item.symbol;
+            currency.name = item.name;
+            currency.nairaValue = 500;
+            currencies.push(currency);
+        });
+        await resolve(resolutions);
+        await  this.appRepository.getRepository(Currency).save(currencies);
+        print("All currencies loaded");
+    }
+
+    @Transactional()
     async loadCountries() {
         const countries: Country[] = [];
-       let resolutions  = (countryList as Country[]).map(async  item => {
+        let resolutions = (countryList as Country[]).map(async item => {
             let country: Country = new Country();
             copyProperties<Country>(item, country);
             country.status = StatusConstant.ACTIVE;
             country.dateCreated = new Date();
             country.isSupported = false;
-            country.code = await this.sequenceGenerator.getNextValue(Country.name,'CON');
+            country.code = await this.sequenceGenerator.getNextValue(Country.name, 'CON');
             countries.push(country);
         });
         await resolve(resolutions);
@@ -47,7 +76,7 @@ export class MasterRecordService {
         print("All countries loaded");
     }
 
-    @Transaction()
+    @Transactional()
     async loadStates() {
         const states: State[] = [];
         let resolutions = (stateList as StateJSON[]).map(async (item, index) => {
@@ -66,5 +95,6 @@ export class MasterRecordService {
         });
         await resolve(resolutions);
         await this.stateRepository.saveAll(states);
+        print("All states loaded");
     }
 }

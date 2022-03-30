@@ -78,7 +78,7 @@ export abstract class RouteConfiguration {
 
     private authenticate(token: string): { userId?: number | null; valid?: boolean } {
         try {
-            const decoded = jwt.verify(token, this.appConfigProperties.jwtSecret);
+            const decoded = jwt.verify(token.replace('Bearer ',''), this.appConfigProperties.jwtSecret);
             return {userId: decoded.userId, valid: true};
         } catch (e) {
             return {userId: null, valid: false};

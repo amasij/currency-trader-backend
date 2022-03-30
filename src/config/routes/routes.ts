@@ -1,6 +1,5 @@
 import express from "express";
-import {UserController} from "../../controllers/user.controller";
-import {RouteConfiguration} from "./route-config";
+import {UserController} from "../../controllers/user/user.controller";
 import {PaystackController} from "../../controllers/payments/paystack.controller";
 import {StripeController} from "../../controllers/payments/stripe.controller";
 

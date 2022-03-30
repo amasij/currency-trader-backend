@@ -1,7 +1,7 @@
 import {Inject, Service} from "typedi";
 import "reflect-metadata";
 import {Constants} from "../constants";
-import {Connection} from "typeorm";
+import {Connection, Repository} from "typeorm";
 
 @Service()
 export class AppRepository {
@@ -12,6 +12,10 @@ export class AppRepository {
 
     get connection(): Connection {
         return <Connection>this._connection;
+    }
+
+    getRepository(klass:any):Repository<any>{
+        return this.connection.getRepository(klass);
     }
 
     async close() {

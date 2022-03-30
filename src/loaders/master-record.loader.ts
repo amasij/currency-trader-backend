@@ -10,6 +10,13 @@ export class MasterRecordLoader {
     }
 
     async load() {
+
+        const numberOfCurrencies: number = await this.masterRecordService.countAllCurrencies();
+
+        if (numberOfCurrencies == 0) {
+            await this.masterRecordService.loadCurrencies();
+        }
+
         const numberOfCountries: number = await this.masterRecordService.countAllCountries();
 
         if (numberOfCountries == 0) {

@@ -1,4 +1,4 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, PrimaryGeneratedColumn} from "typeorm";
 import {StatusConstant} from "../enums/status-constant";
 
 export class BaseModel {
@@ -6,14 +6,15 @@ export class BaseModel {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({type: 'timestamptz'})
-    dateCreated!: Date;
+    @Column({type: 'timestamptz', default: new Date()})
+    dateCreated: Date = new Date();
 
     @Column({
         type: "enum",
         enum: StatusConstant,
+        default: StatusConstant.ACTIVE
     })
-    status!: StatusConstant;
+    status: StatusConstant = StatusConstant.ACTIVE;
 
     @Column()
     code!: string;

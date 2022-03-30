@@ -1,15 +1,15 @@
 import express, {NextFunction, Request, Response} from "express";
 import {Container} from "typedi";
-import {AppConfigurationProperties} from "../config/app-configuration-properties";
-import {RouteConfiguration} from "../config/routes/route-config";
-import {Constants} from "../constants";
-import {HttpStatusCode} from "../domain/enums/http-status-code";
-import {UserRegistrationDto} from "../domain/dto/user-registration.dto";
-import {UserService} from "../services/user.service";
+import {AppConfigurationProperties} from "../../config/app-configuration-properties";
+import {RouteConfiguration} from "../../config/routes/route-config";
+import {Constants} from "../../constants";
+import {HttpStatusCode} from "../../domain/enums/http-status-code";
+import {UserRegistrationDto} from "../../domain/dto/user-registration.dto";
+import {UserService} from "../../services/user/user.service";
 import {plainToInstance} from "class-transformer";
-import {User} from "../models/entity/user.model";
-import {UserLoginDto} from "../domain/dto/user-login.dto";
-import {UserLoginResponse} from "../domain/pojo/user-login-response";
+import {User} from "../../models/entity/user.model";
+import {UserLoginDto} from "../../domain/dto/user-login.dto";
+import {UserLoginResponse} from "../../domain/pojo/user-login-response";
 
 export class UserController extends RouteConfiguration {
     private appConfigurationProperties!: AppConfigurationProperties;

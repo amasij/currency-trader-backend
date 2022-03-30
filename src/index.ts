@@ -8,14 +8,9 @@ import {AppConfigurationProperties} from "./config/app-configuration-properties"
 import {PostgresConnectionOptions} from "typeorm/driver/postgres/PostgresConnectionOptions";
 import {Container} from "typedi";
 import {Constants} from "./constants";
-import {print} from "./utils/utils";
 import {ErrorResponse} from "./config/error/error-response";
 import {HttpStatusCode} from "./domain/enums/http-status-code";
-import {RouteConfiguration} from "./config/routes/route-config";
-import {PaystackController} from "./controllers/payments/paystack.controller";
-import {StripeController} from "./controllers/payments/stripe.controller";
 import {MasterRecordLoader} from "./loaders/master-record.loader";
-import {UserController} from "./controllers/user.controller";
 import {Routes} from "./config/routes/routes";
 import {
     initializeTransactionalContext,

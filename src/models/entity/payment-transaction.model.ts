@@ -3,10 +3,11 @@ import {BaseModel} from "./base.model";
 import {TransactionStatusConstant} from "../enums/transaction-status-constant";
 import {PaymentProviderConstant} from "../enums/payment-provider-constant";
 import {Wallet} from "./wallet.model";
+import {WalletCurrencyBalance} from "./wallet-currency-balance.model";
 
 @Entity()
 export class PaymentTransaction extends BaseModel {
-    @Column()
+    @Column({type: 'bigint'})
     amount!: number;
 
     @Column()
@@ -24,6 +25,6 @@ export class PaymentTransaction extends BaseModel {
     })
     transactionStatus!: TransactionStatusConstant
 
-    @ManyToOne(type => Wallet, wallet => wallet.paymentTransactions)
-    wallet!: Wallet
+    @ManyToOne(type => WalletCurrencyBalance, walletCurrencyBalance => walletCurrencyBalance.paymentTransactions)
+    walletCurrencyBalance!: WalletCurrencyBalance
 }

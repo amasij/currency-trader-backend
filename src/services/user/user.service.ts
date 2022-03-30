@@ -1,22 +1,23 @@
 import {Container, Service} from "typedi";
-import {UserRegistrationDto} from "../domain/dto/user-registration.dto";
-import {User} from "../models/entity/user.model";
-import {AppRepository} from "../repositories/app.repository";
-import {PhoneNumberService} from "./phone-number.service";
-import {SequenceGeneratorService} from "./sequence-generator.service";
-import {StatusConstant} from "../models/enums/status-constant";
+import {UserRegistrationDto} from "../../domain/dto/user-registration.dto";
+import {User} from "../../models/entity/user.model";
+import {AppRepository} from "../../repositories/app.repository";
+import {PhoneNumberService} from "../phone-number.service";
+import {SequenceGeneratorService} from "../sequence-generator.service";
+import {StatusConstant} from "../../models/enums/status-constant";
 import {titleCase} from "typeorm/util/StringUtils";
 import {Transactional} from "typeorm-transactional-cls-hooked";
 import bcrypt from "bcrypt";
-import {MailService} from "./mail.service";
-import {UserLoginDto} from "../domain/dto/user-login.dto";
-import {UserLoginResponse} from "../domain/pojo/user-login-response";
+import {MailService} from "../mail.service";
+import {UserLoginDto} from "../../domain/dto/user-login.dto";
+import {UserLoginResponse} from "../../domain/pojo/user-login-response";
 import {Repository} from "typeorm";
-import {ErrorResponse} from "../config/error/error-response";
-import {HttpStatusCode} from "../domain/enums/http-status-code";
-import {AppConfigurationProperties} from "../config/app-configuration-properties";
-import {Constants} from "../constants";
-import {UserPojo} from "../domain/pojo/user-pojo";
+import {ErrorResponse} from "../../config/error/error-response";
+import {HttpStatusCode} from "../../domain/enums/http-status-code";
+import {AppConfigurationProperties} from "../../config/app-configuration-properties";
+import {Constants} from "../../constants";
+import {UserPojo} from "../../domain/pojo/user-pojo";
+import {WalletService} from "../wallet/wallet.service";
 
 const jwt = require('jsonwebtoken');
 
@@ -26,6 +27,7 @@ export class UserService {
 
     constructor(private appRepository: AppRepository,
                 private mailService: MailService,
+                private walletService:WalletService,
                 private sequenceService: SequenceGeneratorService) {
         this.appConfigProperties = Container.get(Constants.APP_CONFIGURATION_PROPERTIES);
     }
@@ -42,6 +44,7 @@ export class UserService {
         user.firstName = titleCase(dto.firstName);
         user.lastName = titleCase(dto.lastName);
         const savedUser = await this.appRepository.connection.getRepository(User).save(user);
+        await this.walletService.createWallet(savedUser,'DEFAULT-NAIRA-WALLET')
         this.mailService.sendMail('users/user-registration.template', {
             firstName: savedUser.firstName,
             lastName: savedUser.lastName
@@ -63,8 +66,9 @@ export class UserService {
 
     async loginUser(dto: UserLoginDto): Promise<UserLoginResponse> {
         const user = await this.userRepository.createQueryBuilder('user')
-            .where("LOWER(user.email) = :email ", {
-                email: dto.email.toLowerCase()
+            .where("LOWER(user.email) = :email AND status = :status", {
+                email: dto.email.toLowerCase(),
+                status:StatusConstant.ACTIVE
             }).getOne();
 
         if (!user) {
