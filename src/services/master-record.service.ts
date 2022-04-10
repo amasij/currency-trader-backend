@@ -39,8 +39,7 @@ export class MasterRecordService {
         return this.masterRecordRepository.countAllCountries();
     }
 
-
-
+    
     @Transactional()
     async loadCurrencies(){
         const currencies:Currency[] = [];
