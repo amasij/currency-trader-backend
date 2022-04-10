@@ -67,9 +67,9 @@ export class WalletService {
     public async creditWallet(dto: WalletCreditDto): Promise<WalletCreditPojo> {
         const wcbRepository = this.appRepository.getRepository(WalletCurrencyBalance);
         const wcb = await wcbRepository.findOneOrFail({code: dto.walletCurrencyBalanceCode});
-        const paystackResponse = await this.verifyPaymentReference(dto.paymentReference);
-        const savedWcb = await this.updateWalletCurrencyBalance(wcb, paystackResponse.data?.amount ?? 0, TransactionTypeConstant.CREDIT);
-        const paymentTransaction = await this.createPaymentTransaction(savedWcb, paystackResponse,TransactionTypeConstant.CREDIT);
+        const paystackResponse = await this.payStackService.validatePayment(dto.paymentReference);
+        const savedWcb = await this.updateWalletCurrencyBalance(wcb, paystackResponse.data?.amount ?? 0, TransactionTypeConstant.WALLET_CREDIT);
+        const paymentTransaction = await this.createPaymentTransaction(savedWcb, paystackResponse,TransactionTypeConstant.WALLET_CREDIT);
         const walletCreditPojo = new WalletCreditPojo();
         walletCreditPojo.paymentTransactionReference = paymentTransaction.paymentReference;
         return walletCreditPojo;
@@ -78,10 +78,10 @@ export class WalletService {
     private async updateWalletCurrencyBalance(wcb: WalletCurrencyBalance, amount: number, type: TransactionTypeConstant): Promise<WalletCurrencyBalance> {
         const currentBalance:number = parseInt(wcb.amount.toString());
         const newAmount:number = parseInt(amount.toString());
-        if (type == TransactionTypeConstant.CREDIT) {
+        if (type == TransactionTypeConstant.WALLET_CREDIT) {
             wcb.amount = currentBalance + newAmount;
         }
-        if (type == TransactionTypeConstant.DEBIT) {
+        if (type == TransactionTypeConstant.WALLET_DEBIT) {
             if (currentBalance < newAmount) {
                 throw new ErrorResponse({code: HttpStatusCode.BAD_REQUEST, description: 'Insufficient funds'});
             }
@@ -105,15 +105,6 @@ export class WalletService {
             transactionType
         } as PaymentTransactionCreationDto;
         return await this.paymentTransactionService.createPaymentTransaction(dto);
-    }
-
-
-    private async verifyPaymentReference(paymentReference: string): Promise<PaystackTransactionVerificationResponse> {
-        const paystackResponse = await this.payStackService.verifyReference(paymentReference);
-        if (!(paystackResponse.data?.status == 'success')) {
-            throw new ErrorResponse({code: HttpStatusCode.BAD_REQUEST, description: 'Invalid payment reference'});
-        }
-        return paystackResponse;
     }
 
 

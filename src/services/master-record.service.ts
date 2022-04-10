@@ -4,7 +4,6 @@ import {StateRepository} from "../repositories/state.repository";
 import {CountryRepository} from "../repositories/country.repository";
 import {Transaction} from "typeorm";
 import {Country} from "../models/entity/country.model";
-import {copyProperties, print, resolve} from "../utils/utils";
 import {StatusConstant} from "../models/enums/status-constant";
 import {State} from "../models/entity/state.model";
 import {StateJSON} from "../domain/interface/state-json.interface";
@@ -13,6 +12,7 @@ import {Transactional} from "typeorm-transactional-cls-hooked";
 import {Currency} from "../models/entity/currency.model";
 import {CurrencyJSON} from "../domain/interface/currencyJSON";
 import {AppRepository} from "../repositories/app.repository";
+import {copyProperties, Utils} from "../utils/utils";
 
 
 const countryList = require('../resources/country.json');
@@ -51,12 +51,11 @@ export class MasterRecordService {
             currency.code = item.cc;
             currency.symbol = item.symbol;
             currency.name = item.name;
-            currency.nairaValue = 500;
+            currency.nairaValue = 580;
             currencies.push(currency);
         });
-        await resolve(resolutions);
+        await Utils.resolve(resolutions);
         await  this.appRepository.getRepository(Currency).save(currencies);
-        print("All currencies loaded");
     }
 
     @Transactional()
@@ -71,9 +70,8 @@ export class MasterRecordService {
             country.code = await this.sequenceGenerator.getNextValue(Country.name, 'CON');
             countries.push(country);
         });
-        await resolve(resolutions);
+        await Utils.resolve(resolutions);
         await this.countryRepository.saveAll(countries);
-        print("All countries loaded");
     }
 
     @Transactional()
@@ -93,8 +91,7 @@ export class MasterRecordService {
             state.isSupported = false;
             states.push(state);
         });
-        await resolve(resolutions);
+        await Utils.resolve(resolutions);
         await this.stateRepository.saveAll(states);
-        print("All states loaded");
     }
 }

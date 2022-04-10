@@ -17,13 +17,16 @@ export class Order extends BaseModel{
     @Column()
     customerPhoneNumber!: string;
 
-    @Column()
+    @Column({nullable:true})
     address!: string;
+
+    @Column({nullable:true})
+    domAccount!: string;
 
     @Column({unique:true})
     reference!: string;
 
-    @Column({type: 'bigint'})
+    @Column({type: 'decimal', precision: 10, scale: 2})
     amount!: number;
 
     @Column({
@@ -32,7 +35,7 @@ export class Order extends BaseModel{
     })
     orderStatus!: OrderStatusConstant
 
-    @Column({type: 'bigint'})
+    @Column({type: 'decimal', precision: 10, scale: 2})
     currencyNairaValue!:number;
 
     @ManyToOne(type => State, state => state.order)

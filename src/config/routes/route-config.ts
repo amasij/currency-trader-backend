@@ -22,7 +22,6 @@ export abstract class RouteConfiguration {
         this.name = name;
         this.appConfigProperties = Container.get(Constants.APP_CONFIGURATION_PROPERTIES);
         this.appRepository = Container.get(AppRepository);
-        this.register();
     }
 
     getName() {

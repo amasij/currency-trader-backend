@@ -7,13 +7,13 @@ import {WalletCurrencyBalance} from "./wallet-currency-balance.model";
 
 @Entity()
 export class Trade extends BaseModel {
-    @Column({type: 'bigint'})
+    @Column({type: 'decimal', precision: 10, scale: 2})
     currentWalletCurrencyBalanceAmount!: number;
 
-    @Column({type: 'bigint'})
+    @Column({type: 'decimal', precision: 10, scale: 2})
     currentFromCurrencyNairaValue!: number;
 
-    @Column({type: 'bigint'})
+    @Column({type: 'decimal', precision: 10, scale: 2})
     currentToCurrencyNairaValue!: number;
 
     @Column({
@@ -22,7 +22,7 @@ export class Trade extends BaseModel {
     })
     orderType!: OrderTypeConstant;
 
-    @Column({type: 'bigint'})
+    @Column({type: 'decimal', precision: 10, scale: 2})
     amount!: number;
 
     @ManyToOne(type => Currency, currency => currency.fromTrade)

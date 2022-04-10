@@ -12,13 +12,11 @@ import {UserLoginDto} from "../../domain/dto/user-login.dto";
 import {UserLoginResponse} from "../../domain/pojo/user-login-response";
 
 export class UserController extends RouteConfiguration {
-    private appConfigurationProperties!: AppConfigurationProperties;
     private userService!: UserService;
 
     constructor(app: express.Application,
                 private prefix: string = '') {
         super(app, prefix);
-        this.appConfigurationProperties = Container.get(Constants.APP_CONFIGURATION_PROPERTIES);
         this.userService = Container.get(UserService);
     }
 

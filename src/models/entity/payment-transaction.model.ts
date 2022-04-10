@@ -8,10 +8,13 @@ import {Order} from "./order.model";
 
 @Entity()
 export class PaymentTransaction extends BaseModel {
-    @Column({type: 'bigint'})
+    @Column({type: 'decimal', precision: 10, scale: 2})
     amount!: number;
 
-    @Column({unique:true})
+    @Column({type: 'decimal', precision: 10, scale: 2})
+    paymentProviderCharge!: number;
+
+    @Column({unique: true})
     paymentReference!: string;
 
     @Column()
@@ -41,6 +44,8 @@ export class PaymentTransaction extends BaseModel {
     @OneToMany(type => Order, order => Order)
     order!: Order[];
 
-    @ManyToOne(type => WalletCurrencyBalance, walletCurrencyBalance => walletCurrencyBalance.paymentTransactions)
+    @ManyToOne(type => WalletCurrencyBalance,
+        walletCurrencyBalance => walletCurrencyBalance.paymentTransactions,
+        {nullable: true})
     walletCurrencyBalance!: WalletCurrencyBalance
 }

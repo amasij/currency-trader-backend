@@ -7,7 +7,7 @@ import {PaymentTransaction} from "./payment-transaction.model";
 
 @Entity()
 export class WalletCurrencyBalance extends BaseModel {
-    @Column({type: 'bigint'})
+    @Column({type: 'decimal', precision: 10, scale: 2})
     amount!: number;
 
     @OneToMany(type => Trade, trade => Trade)

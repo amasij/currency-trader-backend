@@ -8,10 +8,10 @@ import {PaymentTransactionCreationDto} from "../../domain/dto/payment-transactio
 import {MailService} from "../mail.service";
 import {Constants} from "../../constants";
 import {User} from "../../models/entity/user.model";
-import crypto from "crypto";
 import {ErrorResponse} from "../../config/error/error-response";
 import {HttpStatusCode} from "../../domain/enums/http-status-code";
-import {formatCurrency} from "../../utils/utils";
+import {Utils} from "../../utils/utils";
+import {TransactionTypeConstant} from "../../models/enums/transaction-type-constant";
 
 @Service()
 export class PaymentTransactionService {
@@ -23,7 +23,7 @@ export class PaymentTransactionService {
     }
 
     public static generateTransactionReference(): string {
-        return crypto.randomUUID();
+        return Utils.generateReference();
     }
 
     private async isDuplicateTransaction(paymentProviderReference: string): Promise<boolean> {
@@ -36,6 +36,8 @@ export class PaymentTransactionService {
 
     @Transactional()
     public async createPaymentTransaction(dto: PaymentTransactionCreationDto): Promise<PaymentTransaction> {
+        await Utils.validateClass(dto, 'Unable to create payment transaction. Bad internal data');
+
         if (await this.isDuplicateTransaction(dto.paymentProviderReference.trim())) {
             throw new ErrorResponse({code: HttpStatusCode.BAD_REQUEST, description: 'Duplicate transaction'});
         }
@@ -46,6 +48,7 @@ export class PaymentTransactionService {
         pt.dateCreated = new Date();
         pt.amount = dto.amount;
         pt.description = dto.description;
+        pt.paymentProviderCharge = dto.paymentProviderCharge;
         pt.transactionType = dto.transactionType;
         pt.walletCurrencyBalance = dto.walletCurrencyBalance;
         pt.paymentReference = PaymentTransactionService.generateTransactionReference();
@@ -53,7 +56,9 @@ export class PaymentTransactionService {
         pt.code = await this.sequenceGenerator.getNextValue(PaymentTransaction.name, 'PTC');
         pt.transactionStatus = dto.transactionStatus;
         const savedTransaction = await this.appRepository.getRepository(PaymentTransaction).save(pt);
-        this.sendTransactionCreationMail(loggedInUser, dto, savedTransaction);
+        if(dto.transactionType != TransactionTypeConstant.CURRENCY_PURCHASE){
+            this.sendTransactionCreationMail(loggedInUser, dto, savedTransaction);
+        }
         return savedTransaction;
     }
 
@@ -61,8 +66,8 @@ export class PaymentTransactionService {
         this.mailService.sendMail({
             locals: {
                 firstName: loggedInUser.firstName,
-                transactionType: dto.transactionType,
-                amount: formatCurrency(dto.walletCurrencyBalance.currency.code,paymentTransaction.amount),
+                transactionType: dto.transactionType.replace('_',' '),
+                amount: Utils.formatCurrency(paymentTransaction.amount),
                 currencySymbol: dto.walletCurrencyBalance.currency.symbol,
                 transactionStatus: paymentTransaction.transactionStatus,
                 currencyName: dto.walletCurrencyBalance.currency.name,

@@ -7,25 +7,43 @@ import {HttpStatusCode} from "../../domain/enums/http-status-code";
 import {
     PaystackTransactionVerificationResponse
 } from "../../domain/interface/payments/paystack-transaction-verification.interface";
-import {WalletService} from "../wallet/wallet.service";
-import {print} from "../../utils/utils";
 
 @Service()
 export class PaystackService {
     private appConfigProperties!: AppConfigurationProperties;
 
-    constructor(private walletService:WalletService) {
+    constructor() {
         this.appConfigProperties = Container.get(Constants.APP_CONFIGURATION_PROPERTIES);
     }
 
-    async verifyReference(reference: string):Promise<PaystackTransactionVerificationResponse> {
+    async verifyReference(reference: string): Promise<PaystackTransactionVerificationResponse> {
         if (!reference) {
-            throw new ErrorResponse({code:HttpStatusCode.BAD_REQUEST,description:'Reference is required'});
+            throw new ErrorResponse({code: HttpStatusCode.BAD_REQUEST, description: 'Reference is required'});
         }
         const response = await PayStackApiClient.verifyTransaction(reference, this.appConfigProperties.payStackSecretKey).catch(e => {
             throw new ErrorResponse({code: HttpStatusCode.BAD_REQUEST, description: e.response.data?.['message']});
         });
-        // if(response.data.data.)
+
         return response.data;
+    }
+
+    public async validatePayment(paymentReference: string): Promise<PaystackTransactionVerificationResponse> {
+        const paystackResponse = await this.verifyReference(paymentReference);
+        if (!this.isSuccessfulPayment(paystackResponse)) {
+            throw new ErrorResponse({code: HttpStatusCode.BAD_REQUEST, description: 'Payment was not successful. Please try again later.'});
+        }
+        return paystackResponse;
+    }
+
+    public getTotalAmountPaid(paystackResponse: PaystackTransactionVerificationResponse):number{
+        return paystackResponse.data?.amount??0;
+    }
+
+    public getPaystackCharges(paystackResponse: PaystackTransactionVerificationResponse):number{
+        return paystackResponse.data?.fees??0;
+    }
+
+    private isSuccessfulPayment(paystackResponse: PaystackTransactionVerificationResponse): boolean {
+        return paystackResponse.data?.status === 'success';
     }
 }

@@ -1,0 +1,16 @@
+<html>
+<head></head>
+<body>
+<h3>Order Confirmation</h3>
+<p>Hello {{firstName}},</p>
+<p>Your order for <b>{{currencySymbol}}{{amount}}</b> has been confirmed and the order status is <b>{{orderStatus}}</b> </p>
+{{#if hasDomAccount}}
+    <p>Your order will be sent to your domiciliary account [<b>{{domAccount}}</b>]
+{{else}}
+    <p>Your order will be delivered to your address at [<b>{{address}}</b>]
+{{/if}}
+within the next <b>{{deliveryTime}} hours</b>
+</p>
+
+</body>
+</html>

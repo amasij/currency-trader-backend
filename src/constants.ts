@@ -4,4 +4,5 @@ export class Constants {
     static APPLICATION_CONTEXT: string = 'APPLICATION_CONTEXT';
     static PUBLIC_API: string = 'PUBLIC_API';
     static LOGGED_IN_USER: string = 'LOGGED_IN_USER';
+    static CURRENCY_DELIVERY_TIME_IN_HOURS: string = 'CURRENCY_DELIVERY_TIME_IN_HOURS';
 }

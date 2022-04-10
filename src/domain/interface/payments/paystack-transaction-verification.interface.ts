@@ -28,7 +28,7 @@ export interface PaystackTransactionVerificationResponse {
                 time?: number;
             }[];
         }
-        fees?: any;
+        fees?: number;
         authorization?: {
             authorization_code?: string;
             card_type?: string;

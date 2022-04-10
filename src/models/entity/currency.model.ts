@@ -14,7 +14,7 @@ export class Currency extends BaseModel {
     @Column()
     symbol!: string;
 
-    @Column({type: 'bigint'})
+    @Column({type: 'decimal', precision: 10, scale: 2})
     nairaValue!: number;
 
     @OneToMany(type => WalletCurrencyBalance, walletCurrencyBalance => walletCurrencyBalance.currency)
