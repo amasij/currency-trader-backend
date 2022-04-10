@@ -38,7 +38,6 @@ export class MasterRecordService {
     countAllCountries(): Promise<number> {
         return this.masterRecordRepository.countAllCountries();
     }
-
     
     @Transactional()
     async loadCurrencies(){
