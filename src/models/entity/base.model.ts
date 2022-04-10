@@ -16,6 +16,6 @@ export class BaseModel {
     })
     status: StatusConstant = StatusConstant.ACTIVE;
 
-    @Column()
+    @Column({unique:true})
     code!: string;
 }

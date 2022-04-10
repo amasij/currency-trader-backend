@@ -1,7 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {BaseModel} from "./base.model";
 import {UserWallet} from "./user-wallet.model";
-import bcrypt from "bcrypt";
+import {Order} from "./order.model";
 
 @Entity()
 export class User extends BaseModel {
@@ -33,6 +33,10 @@ export class User extends BaseModel {
 
     @OneToMany(type => UserWallet, userWallet => userWallet.user)
     userWallets!: UserWallet[];
+
+
+    @OneToMany(type => Order, order => order.user)
+    orders!: Order[];
 
 
 }

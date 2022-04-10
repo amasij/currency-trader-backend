@@ -7,12 +7,14 @@ import {HttpStatusCode} from "../../domain/enums/http-status-code";
 import {
     PaystackTransactionVerificationResponse
 } from "../../domain/interface/payments/paystack-transaction-verification.interface";
+import {WalletService} from "../wallet/wallet.service";
+import {print} from "../../utils/utils";
 
 @Service()
 export class PaystackService {
     private appConfigProperties!: AppConfigurationProperties;
 
-    constructor() {
+    constructor(private walletService:WalletService) {
         this.appConfigProperties = Container.get(Constants.APP_CONFIGURATION_PROPERTIES);
     }
 
@@ -23,6 +25,7 @@ export class PaystackService {
         const response = await PayStackApiClient.verifyTransaction(reference, this.appConfigProperties.payStackSecretKey).catch(e => {
             throw new ErrorResponse({code: HttpStatusCode.BAD_REQUEST, description: e.response.data?.['message']});
         });
+        // if(response.data.data.)
         return response.data;
     }
 }

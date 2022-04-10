@@ -15,7 +15,7 @@ export class AppConfigurationProperties {
     stripeCancelUrl!:string;
     mailHostName!:string;
     mailUsername!:string;
-    mailPassword!:string;
+    googleAppPassword!:string;
     mailPort!:number;
     jwtSecret!:string;
     jwtExpiry!:string;
@@ -34,7 +34,7 @@ export class AppConfigurationProperties {
         this.stripeCancelUrl = process.env["STRIPE_CANCEL_URL"]!;
         this.stripeSuccessUrl = process.env["STRIPE_SUCCESS_URL"]!;
         this.mailHostName = process.env["MAIL_HOST_NAME"]!;
-        this.mailPassword = process.env["MAIN_PASSWORD"]!;
+        this.googleAppPassword = process.env["GOOGLE_APP_PASSWORD"]!;
         this.mailUsername = process.env["MAIL_USERNAME"]!;
         this.mailPort = parseInt(process.env["MAIL_POST"]!);
         this.jwtSecret = process.env["JWT_SECRET"]!;

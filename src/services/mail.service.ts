@@ -6,6 +6,8 @@ import {Constants} from "../constants";
 import * as fs from "fs";
 import * as path from "path";
 import hbs from 'handlebars';
+import {ErrorResponse} from "../config/error/error-response";
+import {HttpStatusCode} from "../domain/enums/http-status-code";
 
 @Service()
 export class MailService {
@@ -14,35 +16,27 @@ export class MailService {
 
     constructor() {
         this.appConfigurationProperties = Container.get(Constants.APP_CONFIGURATION_PROPERTIES);
-        // this.transporter = nodemailer.createTransport({
-        //     host: this.appConfigurationProperties.mailHostName,
-        //     port: this.appConfigurationProperties.serverPort,
-        //     secure: false,
-        //     requireTLS: true,
-        //     auth: {
-        //         user: this.appConfigurationProperties.mailUsername,
-        //         pass: this.appConfigurationProperties.mailPassword,
-        //     },
-        //     logger: true
-        // });
-
         this.transporter = nodemailer.createTransport({
-            service: 'Gmail',  // More at https://nodemailer.com/smtp/well-known/#supported-services
+            service: 'Gmail',
             auth: {
-                user: this.appConfigurationProperties.mailUsername, // Your email id
-                pass: 'nakqcfcuwgnidgcr'// Your password
+                user: this.appConfigurationProperties.mailUsername,
+                pass: this.appConfigurationProperties.googleAppPassword
             }
         });
     }
 
-    async sendMail(templateName: string,locals:{}) {
-        const source = fs.readFileSync(path.join(__dirname.replace('/services',''), `/templates/${templateName}.hbs`), 'utf8');
-        const template = hbs.compile(source);
-        const res = await this.transporter.sendMail({
-            from: 'simonjoseph750@gmail.com',
-            to: 'simonjoseph750@gmail.com',
-            subject: 'Welcome to Trader',
-            html: template(locals),
-        });
+    async sendMail(config: { locals: {}, to: string; subject: string; template:string}) {
+       try{
+           const source = fs.readFileSync(path.join(__dirname.replace('/services', ''), `/templates/${config.template}.hbs`), 'utf8');
+           const template = hbs.compile(source);
+           const res = await this.transporter.sendMail({
+               from: 'simonjoseph750@gmail.com',
+               to: config.to,
+               subject: config.subject,
+               html: template(config.locals),
+           });
+       }catch (e){
+           throw new ErrorResponse({code:HttpStatusCode.INTERNAL_SERVER,description:'Unable to send mail'});
+       }
     }
 }

@@ -3,6 +3,7 @@ import {BaseModel} from "./base.model";
 import {UserWallet} from "./user-wallet.model";
 import {WalletCurrencyBalance} from "./wallet-currency-balance.model";
 import {Trade} from "./trade.model";
+import {Order} from "./order.model";
 
 @Entity()
 export class Currency extends BaseModel {
@@ -24,4 +25,7 @@ export class Currency extends BaseModel {
 
     @OneToMany(type => Trade, trade => Trade)
     toTrade!: Trade[];
+
+    @OneToMany(type => Order, order => Order)
+    order!: Order[];
 }

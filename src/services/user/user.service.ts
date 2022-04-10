@@ -27,7 +27,7 @@ export class UserService {
 
     constructor(private appRepository: AppRepository,
                 private mailService: MailService,
-                private walletService:WalletService,
+                private walletService: WalletService,
                 private sequenceService: SequenceGeneratorService) {
         this.appConfigProperties = Container.get(Constants.APP_CONFIGURATION_PROPERTIES);
     }
@@ -43,13 +43,22 @@ export class UserService {
         user.phoneNumber = PhoneNumberService.format(dto.phoneNumber, 'NG');
         user.firstName = titleCase(dto.firstName);
         user.lastName = titleCase(dto.lastName);
-        const savedUser = await this.appRepository.connection.getRepository(User).save(user);
-        await this.walletService.createWallet(savedUser,'DEFAULT-NAIRA-WALLET')
-        this.mailService.sendMail('users/user-registration.template', {
-            firstName: savedUser.firstName,
-            lastName: savedUser.lastName
-        });
+        const savedUser = await this.appRepository.getRepository(User).save(user);
+        await this.walletService.createWallet(savedUser, 'DEFAULT-NAIRA-WALLET')
+        this.sendWelcomeEmail(savedUser);
         return savedUser;
+    }
+
+    private sendWelcomeEmail(user: User) {
+        this.mailService.sendMail({
+            template: 'users/user-registration.template',
+            subject: 'Welcome to Trader',
+            to: user.email,
+            locals: {
+                firstName: user.firstName,
+                lastName: user.lastName
+            },
+        });
     }
 
     private async hashPassword(plainPassword: string): Promise<string> {
@@ -68,7 +77,7 @@ export class UserService {
         const user = await this.userRepository.createQueryBuilder('user')
             .where("LOWER(user.email) = :email AND status = :status", {
                 email: dto.email.toLowerCase(),
-                status:StatusConstant.ACTIVE
+                status: StatusConstant.ACTIVE
             }).getOne();
 
         if (!user) {

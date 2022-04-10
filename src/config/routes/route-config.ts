@@ -59,7 +59,7 @@ export abstract class RouteConfiguration {
                     if (!user) {
                         return RouteConfiguration.unauthorized(res, 'Unauthorized');
                     } else {
-                        res.locals[Constants.LOGGED_IN_USER] = user;
+                        Container.set(Constants.LOGGED_IN_USER, user);
                     }
                 } else {
                     return RouteConfiguration.unauthorized(res, 'Invalid token');
