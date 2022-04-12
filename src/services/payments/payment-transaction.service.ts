@@ -41,7 +41,6 @@ export class PaymentTransactionService {
         if (await this.isDuplicateTransaction(dto.paymentProviderReference.trim())) {
             throw new ErrorResponse({code: HttpStatusCode.BAD_REQUEST, description: 'Duplicate transaction'});
         }
-        const loggedInUser = Container.get(Constants.LOGGED_IN_USER) as User;
         const pt = new PaymentTransaction();
         pt.paymentProvider = dto.paymentProvider;
         pt.status = StatusConstant.ACTIVE;
@@ -56,7 +55,8 @@ export class PaymentTransactionService {
         pt.code = await this.sequenceGenerator.getNextValue(PaymentTransaction.name, 'PTC');
         pt.transactionStatus = dto.transactionStatus;
         const savedTransaction = await this.appRepository.getRepository(PaymentTransaction).save(pt);
-        if(dto.transactionType != TransactionTypeConstant.CURRENCY_PURCHASE){
+        if (dto.transactionType != TransactionTypeConstant.CURRENCY_PURCHASE) {
+            const loggedInUser = Container.get(Constants.LOGGED_IN_USER) as User;
             this.sendTransactionCreationMail(loggedInUser, dto, savedTransaction);
         }
         return savedTransaction;
@@ -66,7 +66,7 @@ export class PaymentTransactionService {
         this.mailService.sendMail({
             locals: {
                 firstName: loggedInUser.firstName,
-                transactionType: dto.transactionType.replace('_',' '),
+                transactionType: dto.transactionType.replace('_', ' '),
                 amount: Utils.formatCurrency(paymentTransaction.amount),
                 currencySymbol: dto.walletCurrencyBalance.currency.symbol,
                 transactionStatus: paymentTransaction.transactionStatus,

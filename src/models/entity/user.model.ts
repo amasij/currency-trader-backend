@@ -35,8 +35,8 @@ export class User extends BaseModel {
     userWallets!: UserWallet[];
 
 
-    @OneToMany(type => Order, order => order.user)
-    orders!: Order[];
+    // @OneToMany(type => Order, order => order.user)
+    // orders!: Order[];
 
 
 }

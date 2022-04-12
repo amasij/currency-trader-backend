@@ -9,10 +9,10 @@ import {State} from "./state.model";
 @Entity()
 export class Order extends BaseModel{
     @Column()
-    customerFirstName!: string;
+    customerName!: string;
 
     @Column()
-    customerLastName!: string;
+    customerEmail!: string;
 
     @Column()
     customerPhoneNumber!: string;
@@ -44,8 +44,8 @@ export class Order extends BaseModel{
     @ManyToOne(type => PaymentTransaction, pt => pt.order)
     paymentTransaction!: PaymentTransaction
 
-    @ManyToOne(type => User, user => user.orders)
-    user!: User;
+    // @ManyToOne(type => User, user => user.orders)
+    // user!: User;
 
     @ManyToOne(type => Currency, currency => currency.order)
     currency!: Currency

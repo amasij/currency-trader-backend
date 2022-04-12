@@ -39,9 +39,11 @@ export class OrderService {
 
     @Transactional()
     public async createOrder(dto: OrderCreationDto): Promise<OrderCreationPojo> {
-        const loggedInUser: User = Container.get(Constants.LOGGED_IN_USER);
         const currency: Currency = await this.appRepository.getRepository(Currency).findOneOrFail({code: dto.currencyCode}).catch(e => {
-            throw new ErrorResponse({code: HttpStatusCode.BAD_REQUEST, description: 'Cannot find currency with code ['+dto.currencyCode+']'});
+            throw new ErrorResponse({
+                code: HttpStatusCode.BAD_REQUEST,
+                description: 'Cannot find currency with code [' + dto.currencyCode + ']'
+            });
         });
         const paystackResponse = await this.paystackService.validatePayment(dto.paymentProviderReference);
         const order: Order = new Order();
@@ -51,7 +53,10 @@ export class OrderService {
         order.code = await this.sequenceService.getNextValue(Order.name, 'ORD');
         if (dto.address) {
             order.state = await this.appRepository.getRepository(State).findOneOrFail({code: dto.stateCode}).catch(e => {
-                throw new ErrorResponse({code: HttpStatusCode.BAD_REQUEST, description: 'Cannot find state with code ['+dto.stateCode+']'});
+                throw new ErrorResponse({
+                    code: HttpStatusCode.BAD_REQUEST,
+                    description: 'Cannot find state with code [' + dto.stateCode + ']'
+                });
             });
             order.address = dto.address;
         }
@@ -60,22 +65,21 @@ export class OrderService {
         }
         order.paymentTransaction = await this.createPaymentTransaction(dto, paystackResponse, currency);
         order.currencyNairaValue = currency.nairaValue;
-        order.customerFirstName = loggedInUser.firstName;
-        order.customerLastName = loggedInUser.lastName;
-        order.customerPhoneNumber = loggedInUser.phoneNumber;
-        order.user = loggedInUser;
+        order.customerName = dto.name;
+        order.customerEmail = dto.email;
+        order.customerPhoneNumber = dto.phoneNumber;
         order.dateCreated = new Date();
         order.reference = Utils.generateReference();
         order.currency = currency;
         const savedOrder = await this.appRepository.getRepository(Order).save(order);
-        this.sendOrderCreationMail(savedOrder, loggedInUser, currency);
+        this.sendOrderCreationMail(savedOrder, dto.name, dto.email, currency);
         return new OrderCreationPojo(order.reference);
     }
 
-    private async sendOrderCreationMail(order: Order, loggedInUser: User, currency: Currency) {
+    private async sendOrderCreationMail(order: Order, name: string, email: string, currency: Currency) {
         this.mailService.sendMail({
             locals: {
-                firstName: loggedInUser.firstName,
+                firstName: name,
                 currencySymbol: currency.symbol,
                 amount: Utils.formatCurrency(order.amount),
                 orderStatus: order.orderStatus,
@@ -84,7 +88,7 @@ export class OrderService {
                 address: order.address,
                 deliveryTime: await this.settingService.getNumber(Constants.CURRENCY_DELIVERY_TIME_IN_HOURS, 24)
             },
-            to: loggedInUser.email,
+            to: email,
             subject: 'Order Confirmation',
             template: 'orders/order-creation.template'
         })

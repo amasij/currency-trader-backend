@@ -16,7 +16,7 @@ export class OrderController extends RouteConfiguration {
     }
 
     register() {
-        this.app.post(`${this.prefix}/create`, this.validate(OrderCreationDto), (req: Request, res: Response, next: NextFunction) =>
+        this.app.post(`${this.prefix}/create`, [this.isPublicApi, this.validate(OrderCreationDto)], (req: Request, res: Response, next: NextFunction) =>
             this.handle(req, res, next, async () => {
                 const dto = plainToInstance(OrderCreationDto, req.body);
                 return res.status(HttpStatusCode.OK).json(await this.orderService.createOrder(dto));

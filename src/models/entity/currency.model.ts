@@ -14,6 +14,9 @@ export class Currency extends BaseModel {
     @Column()
     symbol!: string;
 
+    @Column()
+    supported!: boolean;
+
     @Column({type: 'decimal', precision: 10, scale: 2})
     nairaValue!: number;
 

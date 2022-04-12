@@ -38,7 +38,7 @@ export class MasterRecordService {
     countAllCountries(): Promise<number> {
         return this.masterRecordRepository.countAllCountries();
     }
-    
+
     @Transactional()
     async loadCurrencies(){
         const currencies:Currency[] = [];
@@ -50,6 +50,7 @@ export class MasterRecordService {
             currency.symbol = item.symbol;
             currency.name = item.name;
             currency.nairaValue = 580;
+            currency.supported = false;
             currencies.push(currency);
         });
         await Utils.resolve(resolutions);
