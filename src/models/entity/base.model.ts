@@ -1,5 +1,5 @@
 import {Column, PrimaryGeneratedColumn} from "typeorm";
-import {StatusConstant} from "../enums/status-constant";
+import {StatusEnum} from "../enums/status.enum";
 
 export class BaseModel {
 
@@ -11,10 +11,10 @@ export class BaseModel {
 
     @Column({
         type: "enum",
-        enum: StatusConstant,
-        default: StatusConstant.ACTIVE
+        enum: StatusEnum,
+        default: StatusEnum.ACTIVE
     })
-    status: StatusConstant = StatusConstant.ACTIVE;
+    status: StatusEnum = StatusEnum.ACTIVE;
 
     @Column({unique:true})
     code!: string;

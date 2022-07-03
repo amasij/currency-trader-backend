@@ -1,7 +1,9 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, OneToMany} from "typeorm";
 import {BaseModel} from "./base.model";
-import {UserWallet} from "./user-wallet.model";
 import {Order} from "./order.model";
+import {UserAddress} from "./user-address.model";
+import {UserAccountDetail} from "./user-account-detail.model";
+import {UserRole} from "./user-role.model";
 
 @Entity()
 export class User extends BaseModel {
@@ -31,12 +33,17 @@ export class User extends BaseModel {
     phoneNumber!: string;
 
 
-    @OneToMany(type => UserWallet, userWallet => userWallet.user)
-    userWallets!: UserWallet[];
+    @OneToMany(type => UserAddress, userAddress => userAddress.user)
+    userAddresses!: UserAddress[];
 
+    @OneToMany(type => UserAccountDetail, userAccountDetail => userAccountDetail.user)
+    userAccountDetail!: UserAccountDetail[];
 
-    // @OneToMany(type => Order, order => order.user)
-    // orders!: Order[];
+    @OneToMany(type => Order, order => order.user)
+    orders!: Order[];
+
+    @OneToMany(type => UserRole, userRole => userRole.user)
+    userRoles!: UserRole[];
 
 
 }

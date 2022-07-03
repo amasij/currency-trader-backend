@@ -4,7 +4,7 @@ import {StateRepository} from "../repositories/state.repository";
 import {CountryRepository} from "../repositories/country.repository";
 import {Transaction} from "typeorm";
 import {Country} from "../models/entity/country.model";
-import {StatusConstant} from "../models/enums/status-constant";
+import {StatusEnum} from "../models/enums/status.enum";
 import {State} from "../models/entity/state.model";
 import {StateJSON} from "../domain/interface/state-json.interface";
 import {SequenceGeneratorService} from "./sequence-generator.service";
@@ -44,12 +44,13 @@ export class MasterRecordService {
         const currencies:Currency[] = [];
         let resolutions = (currencyList as CurrencyJSON[]).map(async item => {
             let currency: Currency = new Currency();
-            currency.status = StatusConstant.ACTIVE;
+            currency.status = StatusEnum.ACTIVE;
             currency.dateCreated = new Date();
             currency.code = item.cc;
             currency.symbol = item.symbol;
             currency.name = item.name;
-            currency.nairaValue = 580;
+            currency.nairaBuyValue = 580;
+            currency.nairaSellValue = 580;
             currency.supported = false;
             currencies.push(currency);
         });
@@ -63,7 +64,7 @@ export class MasterRecordService {
         let resolutions = (countryList as Country[]).map(async item => {
             let country: Country = new Country();
             copyProperties<Country>(item, country);
-            country.status = StatusConstant.ACTIVE;
+            country.status = StatusEnum.ACTIVE;
             country.dateCreated = new Date();
             country.isSupported = false;
             country.code = await this.sequenceGenerator.getNextValue(Country.name, 'CON');
@@ -85,7 +86,7 @@ export class MasterRecordService {
             state.name = item.name;
             state.code = item.code;
             state.country = country;
-            state.status = StatusConstant.ACTIVE;
+            state.status = StatusEnum.ACTIVE;
             state.dateCreated = new Date();
             state.isSupported = false;
             states.push(state);

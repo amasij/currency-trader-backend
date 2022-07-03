@@ -1,5 +1,6 @@
-export enum OrderStatusConstant{
+export enum OrderStatusEnum{
     PENDING='PENDING',
+    PROCESSING='PROCESSING',
     COMPLETED='COMPLETED',
     REVERSED='REVERSED',
     FAILED='FAILED'

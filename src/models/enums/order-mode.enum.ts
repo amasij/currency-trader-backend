@@ -1,4 +1,4 @@
-export enum OrderTypeConstant{
+export enum OrderModeConstant{
     BUY = 'BUY',
     SELL = 'SELL'
 }

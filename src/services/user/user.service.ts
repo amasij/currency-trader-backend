@@ -4,7 +4,7 @@ import {User} from "../../models/entity/user.model";
 import {AppRepository} from "../../repositories/app.repository";
 import {PhoneNumberService} from "../phone-number.service";
 import {SequenceGeneratorService} from "../sequence-generator.service";
-import {StatusConstant} from "../../models/enums/status-constant";
+import {StatusEnum} from "../../models/enums/status.enum";
 import {titleCase} from "typeorm/util/StringUtils";
 import {Transactional} from "typeorm-transactional-cls-hooked";
 import bcrypt from "bcrypt";
@@ -17,7 +17,6 @@ import {HttpStatusCode} from "../../domain/enums/http-status-code";
 import {AppConfigurationProperties} from "../../config/app-configuration-properties";
 import {Constants} from "../../constants";
 import {UserPojo} from "../../domain/pojo/user-pojo";
-import {WalletService} from "../wallet/wallet.service";
 
 const jwt = require('jsonwebtoken');
 
@@ -27,7 +26,6 @@ export class UserService {
 
     constructor(private appRepository: AppRepository,
                 private mailService: MailService,
-                private walletService: WalletService,
                 private sequenceService: SequenceGeneratorService) {
         this.appConfigProperties = Container.get(Constants.APP_CONFIGURATION_PROPERTIES);
     }
@@ -37,14 +35,13 @@ export class UserService {
         const user: User = new User();
         user.code = await this.sequenceService.getNextValue(User.name, 'USR');
         user.dateCreated = new Date();
-        user.status = StatusConstant.ACTIVE;
+        user.status = StatusEnum.ACTIVE;
         user.email = dto.email.toLowerCase();
         user.password = await this.hashPassword(dto.password);
         user.phoneNumber = PhoneNumberService.format(dto.phoneNumber, 'NG');
         user.firstName = titleCase(dto.firstName);
         user.lastName = titleCase(dto.lastName);
         const savedUser = await this.appRepository.getRepository(User).save(user);
-        await this.walletService.createWallet(savedUser, 'DEFAULT-NAIRA-WALLET')
         this.sendWelcomeEmail(savedUser);
         return savedUser;
     }
@@ -77,7 +74,7 @@ export class UserService {
         const user = await this.userRepository.createQueryBuilder('user')
             .where("LOWER(user.email) = :email AND status = :status", {
                 email: dto.email.toLowerCase(),
-                status: StatusConstant.ACTIVE
+                status: StatusEnum.ACTIVE
             }).getOne();
 
         if (!user) {

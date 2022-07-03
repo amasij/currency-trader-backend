@@ -1,7 +1,5 @@
 import {Column, Entity, ManyToOne, OneToMany} from "typeorm";
 import {BaseModel} from "./base.model";
-import {User} from "./user.model";
-import {Wallet} from "./wallet.model";
 import {Country} from "./country.model";
 import {Order} from "./order.model";
 

@@ -1,6 +1,6 @@
 import {IsDefined, IsIn, Min} from "class-validator";
 import {Expose} from "class-transformer";
-import {PaymentProviderConstant} from "../../models/enums/payment-provider-constant";
+import {PaymentProviderEnum} from "../../models/enums/payment-provider.enum";
 
 export class WalletCreditDto{
     @IsDefined()
@@ -13,7 +13,7 @@ export class WalletCreditDto{
 
     @IsDefined()
     @Expose()
-    @IsIn([PaymentProviderConstant.STRIPE,PaymentProviderConstant.PAYSTACK])
-    paymentProvider!:PaymentProviderConstant;
+    @IsIn([PaymentProviderEnum.STRIPE,PaymentProviderEnum.PAYSTACK])
+    paymentProvider!:PaymentProviderEnum;
 
 }

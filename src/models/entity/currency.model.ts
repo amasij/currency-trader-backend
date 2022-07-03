@@ -1,9 +1,8 @@
 import {Column, Entity, OneToMany} from "typeorm";
 import {BaseModel} from "./base.model";
-import {UserWallet} from "./user-wallet.model";
-import {WalletCurrencyBalance} from "./wallet-currency-balance.model";
-import {Trade} from "./trade.model";
 import {Order} from "./order.model";
+import {AccountDetail} from "./account-detail.model";
+import {CurrencyOrderType} from "./currency-order-type.model";
 
 @Entity()
 export class Currency extends BaseModel {
@@ -18,17 +17,18 @@ export class Currency extends BaseModel {
     supported!: boolean;
 
     @Column({type: 'decimal', precision: 10, scale: 2})
-    nairaValue!: number;
+    nairaSellValue!: number;
 
-    @OneToMany(type => WalletCurrencyBalance, walletCurrencyBalance => walletCurrencyBalance.currency)
-    walletCurrencyBalance!: WalletCurrencyBalance[];
+    @Column({type: 'decimal', precision: 10, scale: 2})
+    nairaBuyValue!: number;
 
-    @OneToMany(type => Trade, trade => Trade)
-    fromTrade!: Trade[];
 
-    @OneToMany(type => Trade, trade => Trade)
-    toTrade!: Trade[];
+    @OneToMany(type => AccountDetail, accountDetail => accountDetail.currency)
+    accountDetails!: AccountDetail[];
 
     @OneToMany(type => Order, order => Order)
     order!: Order[];
+
+    @OneToMany(type => CurrencyOrderType, currencyOrderType => currencyOrderType.currency)
+    currencyOrderTypes!: CurrencyOrderType[];
 }

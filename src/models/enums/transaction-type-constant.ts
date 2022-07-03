@@ -1,5 +1,0 @@
-export enum TransactionTypeConstant {
-    WALLET_DEBIT = 'WALLET_DEBIT',
-    WALLET_CREDIT = 'WALLET_CREDIT',
-    CURRENCY_PURCHASE = 'CURRENCY_PURCHASE'
-}

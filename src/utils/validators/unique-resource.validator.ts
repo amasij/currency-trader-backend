@@ -4,7 +4,7 @@ import {Container} from "typedi";
 import {User} from "../../models/entity/user.model";
 import {PhoneNumberService} from "../../services/phone-number.service";
 import {Repository} from "typeorm";
-import {StatusConstant} from "../../models/enums/status-constant";
+import {StatusEnum} from "../../models/enums/status.enum";
 
 @ValidatorConstraint({name: 'isUniqueResource', async: true})
 export class UniqueResourceValidator implements ValidatorConstraintInterface {
@@ -21,12 +21,12 @@ export class UniqueResourceValidator implements ValidatorConstraintInterface {
                 return (await this.userRepository.createQueryBuilder('user')
                     .where("LOWER(user.email) = :email AND status = :status", {
                         email: identifier.toLowerCase(),
-                        status: StatusConstant.ACTIVE
+                        status: StatusEnum.ACTIVE
                     }).getCount()) < 1;
             case 'PHONE_NUMBER':
                 return (await this.userRepository.count({
                     phoneNumber: PhoneNumberService.format(identifier, 'NG'),
-                    status: StatusConstant.ACTIVE
+                    status: StatusEnum.ACTIVE
                 }) < 1);
         }
 

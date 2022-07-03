@@ -2,8 +2,8 @@ import {Container, Service} from "typedi";
 import {OrderCreationDto} from "../../domain/dto/order-creation.dto";
 import {AppRepository} from "../../repositories/app.repository";
 import {Order} from "../../models/entity/order.model";
-import {OrderStatusConstant} from "../../models/enums/order-status-constant";
-import {StatusConstant} from "../../models/enums/status-constant";
+import {OrderStatusEnum} from "../../models/enums/order-status.enum";
+import {StatusEnum} from "../../models/enums/status.enum";
 import {SequenceGeneratorService} from "../sequence-generator.service";
 import {OrderCreationPojo} from "../../domain/pojo/order-creation.pojo";
 import {Transactional} from "typeorm-transactional-cls-hooked";
@@ -11,12 +11,11 @@ import {PaystackService} from "../payments/paystack.service";
 import {PaymentTransactionService} from "../payments/payment-transaction.service";
 import {PaymentTransaction} from "../../models/entity/payment-transaction.model";
 import {PaymentTransactionCreationDto} from "../../domain/dto/payment-transaction-creation.dto";
-import {TransactionTypeConstant} from "../../models/enums/transaction-type-constant";
 import {TransactionStatusConstant} from "../../models/enums/transaction-status-constant";
 import {
     PaystackTransactionVerificationResponse
 } from "../../domain/interface/payments/paystack-transaction-verification.interface";
-import {PaymentProviderConstant} from "../../models/enums/payment-provider-constant";
+import {PaymentProviderEnum} from "../../models/enums/payment-provider.enum";
 import {User} from "../../models/entity/user.model";
 import {Constants} from "../../constants";
 import {Utils} from "../../utils/utils";
@@ -47,33 +46,15 @@ export class OrderService {
         });
         const paystackResponse = await this.paystackService.validatePayment(dto.paymentProviderReference);
         const order: Order = new Order();
-        order.orderStatus = OrderStatusConstant.PENDING;
-        order.amount = paystackResponse.data?.amount! / currency.nairaValue;
-        order.status = StatusConstant.ACTIVE;
+        order.orderStatus = OrderStatusEnum.PENDING;
+        order.amount = paystackResponse.data?.amount! / currency.nairaSellValue;
+        order.status = StatusEnum.ACTIVE;
         order.code = await this.sequenceService.getNextValue(Order.name, 'ORD');
-        if (dto.address) {
-            order.state = await this.appRepository.getRepository(State).findOneOrFail({code: dto.stateCode}).catch(e => {
-                throw new ErrorResponse({
-                    code: HttpStatusCode.BAD_REQUEST,
-                    description: 'Cannot find state with code [' + dto.stateCode + ']'
-                });
-            });
-            order.address = dto.address;
-        }
-        if (dto.domAccount) {
-            order.domAccount = dto.domAccount;
-        }
+
         order.paymentTransaction = await this.createPaymentTransaction(dto, paystackResponse, currency);
-        order.currencyNairaValue = currency.nairaValue;
-        order.customerName = dto.name;
-        order.customerEmail = dto.email;
-        order.customerPhoneNumber = dto.phoneNumber;
-        order.dateCreated = new Date();
-        order.reference = Utils.generateReference();
-        order.currency = currency;
         const savedOrder = await this.appRepository.getRepository(Order).save(order);
         this.sendOrderCreationMail(savedOrder, dto.name, dto.email, currency);
-        return new OrderCreationPojo(order.reference);
+        return new OrderCreationPojo('');
     }
 
     private async sendOrderCreationMail(order: Order, name: string, email: string, currency: Currency) {
@@ -83,8 +64,8 @@ export class OrderService {
                 currencySymbol: currency.symbol,
                 amount: Utils.formatCurrency(order.amount),
                 orderStatus: order.orderStatus,
-                hasDomAccount: !!order.domAccount,
-                domAccount: order.domAccount,
+                hasDomAccount: false,
+                domAccount: '',
                 address: order.address,
                 deliveryTime: await this.settingService.getNumber(Constants.CURRENCY_DELIVERY_TIME_IN_HOURS, 24)
             },
@@ -96,13 +77,12 @@ export class OrderService {
 
     private async createPaymentTransaction(orderCreationDto: OrderCreationDto, paystackResponse: PaystackTransactionVerificationResponse, currency: Currency): Promise<PaymentTransaction> {
         const dto = new PaymentTransactionCreationDto();
-        dto.transactionType = TransactionTypeConstant.CURRENCY_PURCHASE;
         dto.transactionStatus = TransactionStatusConstant.PAID;
         dto.paymentProviderReference = orderCreationDto.paymentProviderReference;
         dto.amount = this.paystackService.getTotalAmountPaid(paystackResponse);
         dto.paymentProviderCharge = this.paystackService.getPaystackCharges(paystackResponse);
-        dto.description = `Purchase of currency [₦${dto.amount}/ ₦${currency.nairaValue} = ${currency.symbol}${(dto.amount) / currency.nairaValue}]`;
-        dto.paymentProvider = PaymentProviderConstant.PAYSTACK;
+        dto.description = `Purchase of currency [₦${dto.amount}/ ₦${currency.nairaSellValue} = ${currency.symbol}${(dto.amount) / currency.nairaSellValue}]`;
+        dto.paymentProvider = PaymentProviderEnum.PAYSTACK;
         return this.paymentTransactionService.createPaymentTransaction(dto);
     }
 }

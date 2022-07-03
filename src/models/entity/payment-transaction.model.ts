@@ -1,9 +1,7 @@
 import {Column, Entity, ManyToOne, OneToMany} from "typeorm";
 import {BaseModel} from "./base.model";
 import {TransactionStatusConstant} from "../enums/transaction-status-constant";
-import {PaymentProviderConstant} from "../enums/payment-provider-constant";
-import {WalletCurrencyBalance} from "./wallet-currency-balance.model";
-import {TransactionTypeConstant} from "../enums/transaction-type-constant";
+import {PaymentProviderEnum} from "../enums/payment-provider.enum";
 import {Order} from "./order.model";
 
 @Entity()
@@ -25,9 +23,9 @@ export class PaymentTransaction extends BaseModel {
 
     @Column({
         type: "enum",
-        enum: PaymentProviderConstant,
+        enum: PaymentProviderEnum,
     })
-    paymentProvider!: PaymentProviderConstant
+    paymentProvider!: PaymentProviderEnum
 
     @Column({
         type: "enum",
@@ -35,17 +33,8 @@ export class PaymentTransaction extends BaseModel {
     })
     transactionStatus!: TransactionStatusConstant
 
-    @Column({
-        type: "enum",
-        enum: TransactionTypeConstant,
-    })
-    transactionType!: TransactionTypeConstant
 
     @OneToMany(type => Order, order => Order)
     order!: Order[];
 
-    @ManyToOne(type => WalletCurrencyBalance,
-        walletCurrencyBalance => walletCurrencyBalance.paymentTransactions,
-        {nullable: true})
-    walletCurrencyBalance!: WalletCurrencyBalance
 }

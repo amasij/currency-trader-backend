@@ -1,4 +1,4 @@
-export enum PaymentProviderConstant{
+export enum PaymentProviderEnum{
     PAYSTACK = 'PAYSTACK',
     STRIPE = 'STRIPE'
 }

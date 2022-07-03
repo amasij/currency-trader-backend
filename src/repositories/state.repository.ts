@@ -5,7 +5,7 @@ import {BaseRepository} from "./base.repository";
 import {AppRepository} from "./app.repository";
 import {State} from "../models/entity/state.model";
 import {Country} from "../models/entity/country.model";
-import {StatusConstant} from "../models/enums/status-constant";
+import {StatusEnum} from "../models/enums/status.enum";
 
 @Service()
 export class StateRepository extends BaseRepository<State> {
@@ -18,7 +18,7 @@ export class StateRepository extends BaseRepository<State> {
         return repository.createQueryBuilder('state')
             .leftJoin(Country, 'country', 'country.id = state.countryId')
             .where('country.alpha2 = :alpha2', {alpha2})
-            .andWhere('state.status = :status', {status: StatusConstant.ACTIVE})
+            .andWhere('state.status = :status', {status: StatusEnum.ACTIVE})
             .getMany();
     }
 
