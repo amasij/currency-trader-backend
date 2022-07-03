@@ -25,8 +25,6 @@ export class OrderCreationDto {
     @MaxLength(14)
     phoneNumber!: string;
 
-    @IsDefined()
-    @Expose()
     stateCode!: string;
 
     @IsDefined()

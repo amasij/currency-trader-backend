@@ -34,7 +34,7 @@ export abstract class RouteConfiguration {
             const output: any = plainToInstance(klass, req.body);
             const errors = await validate(output, {skipMissingProperties: true}).catch();
             if (errors && errors.length) {
-                return res.status(HttpStatusCode.UNAUTHORIZED).send([].concat.apply([], (errors.map(x => x.constraints).map(o => Object.keys(o!).map(key => o![key]))) as []));
+                return res.status(HttpStatusCode.BAD_REQUEST).send([].concat.apply([], (errors.map(x => x.constraints).map(o => Object.keys(o!).map(key => o![key]))) as []));
             }
             next();
         };
